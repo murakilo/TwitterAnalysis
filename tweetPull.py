@@ -1,4 +1,4 @@
-# stream tweets from twitter api using tweepy
+# pull tweets from twitter api using tweepy (live)
 # geomotion Twitter api app
 # Joshua Cullen - Jan 2018
 # tweepy docs: http://docs.tweepy.org/en/v3.5.0/index.html
@@ -18,18 +18,13 @@ api = tweepy.API(auth)
 
 # stream class to print tweets (excluding retweets)
 class MyStreamListener(tweepy.StreamListener):
+    """ prints tweets to terminal (excl. RTs) """
     def on_status(self, status):
         if status.text[0:4] != 'RT @':
             print('*'*80 + '\n' + status.text + '\n' + '*'*80 + '\n')
 
-myStreamListener = MyStreamListener()
-myStream = tweepy.Stream(auth = api.auth, listener=MyStreamListener())
+myStream = tweepy.Stream(auth = api.auth, listener = MyStreamListener())
 
-# read all tweets:
-myStream.sample()
-
-# read your timeline:
-# myStream.userstream()
-
-# to filter tweets use below:
-#myStream.filter(track=[''])
+myStream.sample()            # read all tweets
+#myStream.userstream()       # read user timeline (user specified during OAuth)
+#myStream.filter(track=['']) # filter tweets
